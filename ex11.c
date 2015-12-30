@@ -2,28 +2,45 @@
 
 int main(int argc, char *argv[])
 {
-    int areas[] = { 10, 12, 13, 14, 20 };
-    char name[] = "CT";
-    char full_name[] = {
-        'C', 'h', 'a',
-        'r', 'l', 'e', 's'
-    };
+	int ages[] = { 23, 42, 12, 89, 2 };
+	char *names[] = {
+		"Alan", "Frank",
+		"Murray", "John", "Lisa"
+	};
 
-    printf("The size of an int: %ld\n", sizeof(int));
-    printf("The size of areas (int[]): %ld\n", sizeof(areas));
-    printf("The number of ints in areas: %ld\n",
-            sizeof(areas) / sizeof(int));
-    printf("The first area is %d, the 2nd %d.\n", areas[0], areas[1]);
-   
-    printf("The size of a char: %ld\n", sizeof(char));
-    printf("The size of name (char[]): %ld\n", sizeof(name));
-    printf("The number of chars: %ld\n", sizeof(name) / sizeof(char));
-   
-    printf("The size of full_name (char[]): %ld\n", sizeof(full_name));
-    printf("The number of chars: %ld\n",
-            sizeof(full_name) / sizeof(char));
+	/* safely get the size of ages */
+	int count = sizeof(ages) / sizeof(int);
+	int i = 0;
 
-    printf("name=\"%s\" and full_name=\"%s\"\n", name, full_name);
+	/* first way using indexing */
+	for (i = 0; i < count; i++) {
+		printf("%s has %d years alive.\n", names[i], ages[i]);
+	}
 
-    return 0;
-}
+	printf("--\n");
+
+	/* set up the pointers to the start of the arrays */
+	int *cur_age = ages;
+	char **cur_name = names;
+
+	/* second way using pointers */
+	for (i = 0; i < count; i++) {
+		printf("%s is %d years old\n",
+				*(cur_name + i), *(cur_age + i));
+	}
+
+	printf("--\n");
+
+	/* third way, pointers are just arrays */
+	for (i = 0; i < count; i++) {
+	printf("%s is %d years old again.\n", cur_name[i], cur_age[i]);
+	}
+
+	/* fourth way with pointers in a stupid complex way */
+	for (cur_name = names, cur_age = ages;
+			(cur_age - ages) < count; cur_name++, cur_age++) {
+		printf("%s lived %d years so far.\n", *cur_name, *cur_age);
+	}
+
+	return 0;
+}	
